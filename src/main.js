@@ -1,14 +1,30 @@
 import "../style.css";
 import { Setup } from "./three_setup";
 import { loadAsset } from "./gltfLoader";
+import * as THREE from "three";
+//initial camera position
+let setup = new Setup();
+setup.camera.position.z = 30;
 
-let element = document.querySelector(".render-container");
+//loading moon and sun
+let moon = await loadAsset("../public/moon.glb");
+let sun = await loadAsset("../public/sun_model.glb");
+const sunPLight = new THREE.PointLight(0xffffff, 1000);
 
-let setup = new Setup(element);
-const animate = () => {
+sun.add(sunPLight);
+
+const gridH = new THREE.GridHelper(200, 10);
+setup.scene.add(gridH, sun);
+
+setup.scene.add(moon);
+const controller = setup.control();
+console.log(controller);
+
+function animate() {
+	controller.update();
 	window.requestAnimationFrame(animate);
 	setup.update();
-};
+}
 animate();
 
 window.addEventListener("resize", () => {

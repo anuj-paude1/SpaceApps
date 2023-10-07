@@ -1,9 +1,10 @@
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
+const modelInitScale = 0.01;
 export const loadAsset = async (path) => {
-	const loader = new GLTFLoader().setPath("../public");
-	let gltf = await loader.loadAsset(path);
+	const loader = new GLTFLoader();
+	let gltf = await loader.loadAsync(path);
 	let model = gltf.scene.children[0];
-	model.scale.set(0.01, 0.01, 0.01);
+	model.scale.set(modelInitScale, modelInitScale, modelInitScale);
 	return model;
 };
