@@ -3,7 +3,11 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 class Setup {
 	constructor() {
-		this.scene = new THREE.Scene();
+		this.sceneA = new THREE.Scene();
+		this.sceneB = new THREE.Scene();
+		//TODO: change the scene back to A
+
+		this.scene = this.sceneA;
 		this.size = {
 			height: window.innerHeight,
 			width: window.innerWidth,
@@ -25,13 +29,15 @@ class Setup {
 
 		return this;
 	}
+
+	changeScene(isChangeSene) {
+		this.scene = this.sceneB;
+	}
 	control() {
 		const control = new OrbitControls(this.camera, this.renderer.domElement);
 		return control;
 	}
-	resizeHandler(){
-		
-	}
+	resizeHandler() {}
 	update() {
 		this.renderer.render(this.scene, this.camera);
 	}

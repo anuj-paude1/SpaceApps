@@ -1,80 +1,31 @@
 import "../style.css";
-import { Setup } from "./three_setup";
-import { loadAsset } from "./gltfLoader";
-import { landingAnimation } from "./landing_page_animateion";
+import { Setup } from "./helpers/three_setup";
+import { loadAsset } from "./helpers/gltfLoader";
+import { landingAnimation } from "./animations/landing_page_animateion";
+import { getMoonAndSun } from "./scenes/sceneA";
 import * as THREE from "three";
+import { getMoonSunEarthSceneB } from "./scenes/sceneB";
 
 //initial camera position
 let setup = new Setup();
-setup.camera.position.z = 100;
 
-//background stars
-const loader = new THREE.CubeTextureLoader();
-const texture = loader.load([
-	"../public/images/2k_stars.jpg",
-	"../public/images/2k_stars.jpg",
-	"../public/images/2k_stars.jpg",
-	"../public/images/2k_stars.jpg",
-	"../public/images/2k_stars.jpg",
-	"../public/images/2k_stars.jpg",
-]);
-//hehe
-setup.scene.background = texture;
+setup.camera.position.set(0, 0, 100);
+setup.camera.position.y = 0;
 
-//sun model
-const sunGeometry = new THREE.SphereGeometry(0.5, 32, 32); // Radius, widthSegments, heightSegments
-const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-const sun = new THREE.Mesh(sunGeometry, sunMaterial);
-setup.scene.add(sun);
-console.log(sun);
-const textureLoader = new THREE.TextureLoader();
-textureLoader.load("../public/images/2k_sun.jpg", (texture) => {
-	sunMaterial.map = texture;
-	sunMaterial.needsUpdate = true;
-});
+let sceneAAssets = await getMoonAndSun(setup);
+let sceneBAssets = await getMoonSunEarthSceneB(setup);
 
-//to change color of sun
-// sun.material.color.set(0.7,0.2,0)
+//*story ko js
 
+let btn = document.getElementById("btn");
 
-//story ko js
-
-
-let stars = document.getElementById('stars');
-let moon = document.getElementById('moon');
-// let mountains_behind = document.getElementById('mountains_behind');
-// let text = document.getElementById('text');
-let btn = document.getElementById('btn');
-let mountains_front = document.getElementById('mountains_front');
-
-function mapValue(value, oldLow, oldHigh, newLow, newHigh) {
-	// Ensure that the input value is within the old range
-	if (value < oldLow) value = oldLow;
-	if (value > oldHigh) value = oldHigh;
-
-	// Calculate the percentage of the value within the old range
-	const percentage = (value - oldLow) / (oldHigh - oldLow);
-
-	// Map the percentage to the new range
-	const newValue = newLow + percentage * (newHigh - newLow);
-
-	return newValue;
-}
-window.addEventListener('scroll', function () {
-	var height = Math.max(document.body.scrollHeight, document.body.offsetHeight);
-	console.log(`height: ${height}`);
-
+window.addEventListener("scroll", function () {
 	let value = window.scrollY;
-	console.log(`value: ${height}`);
-	console.log(`map: ${mapValue(value, 0, height, 1, 3)}`);
-
-	stars.style.transform = `scale(${mapValue(value, 0, height, 1, 3)})`;
-
-	moon.style.top = value * 1.03 + 'px';
-	mountains_front.style.top = value * 0 + 'px';
-	// text.style.marginRight = value * 3 + 'px';
-	// text.style.marginTop = value * 1.5 + 'px';
-	btn.style.marginTop = value * 3 + 'px';
+	if (value > window.innerHeight) {
+		sceneA.remove(sun, moon);
+		setup.changeScene(true);
+	}
+	btn.style.marginTop = value * 3 + "px";
 });
 
 const prevBtn = document.getElementById("prev-btn");
@@ -82,15 +33,13 @@ const nextBtn = document.getElementById("next-btn");
 
 const book = document.getElementById("book");
 
-const paper1 = document.getElementById("p1")
-const paper2 = document.getElementById("p2")
-const paper3 = document.getElementById("p3")
-const paper4 = document.getElementById("p4")
+const paper1 = document.getElementById("p1");
+const paper2 = document.getElementById("p2");
+const paper3 = document.getElementById("p3");
+const paper4 = document.getElementById("p4");
 // event
 prevBtn.addEventListener("click", goPrevPage);
 nextBtn.addEventListener("click", goNextPage);
-
-
 
 let currentLocation = 1;
 let numOfPapers = 4;
@@ -100,7 +49,6 @@ function openBook() {
 	book.style.transform = "translateX(50%)";
 	prevBtn.style.transform = "translateX(-250px)";
 	nextBtn.style.transform = "translateX(250px)";
-
 }
 
 function closeBook(isAtBeginning) {
@@ -109,9 +57,9 @@ function closeBook(isAtBeginning) {
 	} else {
 		book.style.transform = "translateX(100%)";
 	}
-
-
 }
+
+//removing the models
 
 function goNextPage() {
 	if (currentLocation < maxLocation) {
@@ -134,11 +82,13 @@ function goNextPage() {
 				paper4.classList.add("flipped");
 				paper4.style.zIndex = 4;
 				closeBook(false);
+				setup.changeScene(true);
+				let main = document.querySelector("main");
+				main.classList.add("hidden");
+
 				break;
 			default:
 				throw new Error("unknown state");
-
-
 		}
 		currentLocation++;
 	}
@@ -168,32 +118,18 @@ function goPrevPage() {
 				break;
 			default:
 				throw new Error("unknown state");
-
-
 		}
 		currentLocation--;
 	}
 }
-
+const control = setup.control();
 
 //story ko js end
-
-let moonModel = await loadAsset("../public/models/moon.glb");
-const sunPLight = new THREE.PointLight(0xffffff, 10000);
-sun.add(sunPLight);
-//setting moon and sun scale and position
-sun.scale.set(0, 0, 0);
-moonModel.scale.set(0, 0, 0);
-moonModel.position.set(50, 0, 50);
-
-const gridH = new THREE.GridHelper(200, 10);
-setup.scene.add(sun);
-setup.scene.add(moonModel);
 
 const controller = setup.control();
 
 function animate() {
-	landingAnimation(sun, moonModel);
+	landingAnimation(sceneAAssets.sun, sceneAAssets.moonModel);
 	controller.update();
 	window.requestAnimationFrame(animate);
 	setup.update();
