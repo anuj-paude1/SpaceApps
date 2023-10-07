@@ -11,34 +11,33 @@ setup.camera.position.z = 100;
 //background stars
 const loader = new THREE.CubeTextureLoader();
 const texture = loader.load([
-    '../public/2k_stars.jpg',
-    '../public/2k_stars.jpg',
-    '../public/2k_stars.jpg',
-    '../public/2k_stars.jpg',
-    '../public/2k_stars.jpg',
-    '../public/2k_stars.jpg'
+	"../public/images/2k_stars.jpg",
+	"../public/images/2k_stars.jpg",
+	"../public/images/2k_stars.jpg",
+	"../public/images/2k_stars.jpg",
+	"../public/images/2k_stars.jpg",
+	"../public/images/2k_stars.jpg",
 ]);
 //hehe
 setup.scene.background = texture;
 
 //sun model
 const sunGeometry = new THREE.SphereGeometry(0.5, 32, 32); // Radius, widthSegments, heightSegments
-const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00  }); 
+const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
 const sun = new THREE.Mesh(sunGeometry, sunMaterial);
 setup.scene.add(sun);
-console.log(sun)
+console.log(sun);
 const textureLoader = new THREE.TextureLoader();
-textureLoader.load('../public/2k_sun.jpg', (texture) => {
-  sunMaterial.map = texture;
-  sunMaterial.needsUpdate = true;
+textureLoader.load("../public/images/2k_sun.jpg", (texture) => {
+	sunMaterial.map = texture;
+	sunMaterial.needsUpdate = true;
 });
 
 //to change color of sun
 // sun.material.color.set(0.7,0.2,0)
 
-
 //loading moon and sun
-let moon = await loadAsset("../public/moon.glb");
+let moon = await loadAsset("../public/models/moon.glb");
 const sunPLight = new THREE.PointLight(0xffffff, 10000);
 sun.add(sunPLight);
 //setting moon and sun scale and position
@@ -61,16 +60,15 @@ function scaleIn() {
 	});
 }
 
-const axesHelper = new THREE.AxesHelper( 500 );
-setup.scene.add( axesHelper );
+const axesHelper = new THREE.AxesHelper(500);
+setup.scene.add(axesHelper);
 
 function animateEclipse() {
 	moon.rotation.y += 0.01;
-	if(0.1<moon.position.x && moon.position.x<15)
-	{
-		sun.material.color.g-=0.004;
+	if (0.1 < moon.position.x && moon.position.x < 15) {
+		sun.material.color.g -= 0.004;
 	}
-	if (moon.position.x > maxMoonDisp) moon.position.x -= 0.1;	
+	if (moon.position.x > maxMoonDisp) moon.position.x -= 0.1;
 }
 
 function animate() {
