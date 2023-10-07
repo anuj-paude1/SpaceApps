@@ -18,7 +18,7 @@ const texture = loader.load([
     '../public/2k_stars.jpg',
     '../public/2k_stars.jpg'
 ]);
-
+//hehe
 setup.scene.background = texture;
 
 //sun model
