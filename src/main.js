@@ -1,20 +1,30 @@
 import "../style.css";
 import { Setup } from "./three_setup";
 import { loadAsset } from "./gltfLoader";
-import { TetrahedronGeometry } from "three";
+import * as THREE from "three";
+//initial camera position
+let setup = new Setup();
+setup.camera.position.z = 30;
 
-let element = document.querySelector(".render-container");
-let setup = new Setup(element);
-let moon = await loadAsset("./moon");
-const pLight = new THREE.PointLight(0xffffff, 10000);
-pLight.position.set(0, 50, 0);
+//loading moon and sun
+let moon = await loadAsset("../public/moon.glb");
+let sun = await loadAsset("../public/sun_model.glb");
+const sunPLight = new THREE.PointLight(0xffffff, 1000);
+
+sun.add(sunPLight);
+
+const gridH = new THREE.GridHelper(200, 10);
+setup.scene.add(gridH, sun);
 
 setup.scene.add(moon);
+const controller = setup.control();
+console.log(controller);
 
-const animate = () => {
+function animate() {
+	controller.update();
 	window.requestAnimationFrame(animate);
 	setup.update();
-};
+}
 animate();
 
 window.addEventListener("resize", () => {
