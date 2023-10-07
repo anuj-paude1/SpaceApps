@@ -50,26 +50,6 @@ setup.scene.add(gridH, sun);
 setup.scene.add(moon);
 
 const controller = setup.control();
-function scaleIn() {
-	const scaleInTl = new gsap.timeline({ defaults: { duration: 2 } });
-	scaleInTl.to(sun.scale, { x: maxSunScale, y: maxSunScale, z: maxSunScale });
-	scaleInTl.to(moon.scale, {
-		x: maxMoonScale,
-		y: maxMoonScale,
-		z: maxMoonScale,
-	});
-}
-
-const axesHelper = new THREE.AxesHelper(500);
-setup.scene.add(axesHelper);
-
-function animateEclipse() {
-	moon.rotation.y += 0.01;
-	if (0.1 < moon.position.x && moon.position.x < 15) {
-		sun.material.color.g -= 0.004;
-	}
-	if (moon.position.x > maxMoonDisp) moon.position.x -= 0.1;
-}
 
 function animate() {
 	landingAnimation(sun, moon);
