@@ -1,8 +1,9 @@
 import "../style.css";
 import { Setup } from "./three_setup";
 import { loadAsset } from "./gltfLoader";
+import { landingAnimation } from "./landing_page_animateion";
 import * as THREE from "three";
-import { gsap } from "gsap";
+
 //initial camera position
 let setup = new Setup();
 setup.camera.position.z = 100;
@@ -16,35 +17,15 @@ sun.add(sunPLight);
 sun.scale.set(0, 0, 0);
 moon.scale.set(0, 0, 0);
 moon.position.set(50, 0, 50);
-const maxSunScale = 20;
-const maxMoonScale = 0.009;
-const maxMoonDisp = 0;
-//ambient Light
-const ambLight = new THREE.AmbientLight(0xffffff, 1);
 
 const gridH = new THREE.GridHelper(200, 10);
 setup.scene.add(gridH, sun);
 setup.scene.add(moon);
-const controller = setup.control();
-function scaleIn() {
-	const scaleInTl = new gsap.timeline({ defaults: { duration: 2 } });
-	scaleInTl.to(sun.scale, { x: maxSunScale, y: maxSunScale, z: maxSunScale });
-	scaleInTl.to(moon.scale, {
-		x: maxMoonScale,
-		y: maxMoonScale,
-		z: maxMoonScale,
-	});
-}
 
-function animateEclipse() {
-	moon.rotation.y += 0.01;
-	if (moon.position.x > maxMoonDisp) moon.position.x -= 0.1;
-}
+const controller = setup.control();
 
 function animate() {
-	scaleIn();
-	animateEclipse();
-
+	landingAnimation(sun, moon);
 	controller.update();
 	window.requestAnimationFrame(animate);
 	setup.update();
