@@ -15,6 +15,10 @@ export const landingAnimation = (sun, moon) => {
 
 	function animateEclipse() {
 		moon.rotation.y += 0.01;
+		if(0.1<moon.position.x && moon.position.x<15)
+		gsap.to(sun.material.color, {
+	g: 0.3, duration: 10})
+		
 		gsap.to(moon.position, {
 			x: 0,
 			y: 0,

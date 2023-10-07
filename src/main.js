@@ -23,7 +23,7 @@ setup.scene.background = texture;
 
 //sun model
 const sunGeometry = new THREE.SphereGeometry(0.5, 32, 32); // Radius, widthSegments, heightSegments
-const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 }); 
+const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00  }); 
 const sun = new THREE.Mesh(sunGeometry, sunMaterial);
 setup.scene.add(sun);
 console.log(sun)
