@@ -4,7 +4,8 @@ const modelInitScale = 0.01;
 export const loadAsset = async (path) => {
 	const loader = new GLTFLoader();
 	let gltf = await loader.loadAsync(path);
-	let model = gltf.scene.children[0];
+	let model = gltf.scene;
+	
 	model.scale.set(modelInitScale, modelInitScale, modelInitScale);
 	return model;
 };
