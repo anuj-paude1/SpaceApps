@@ -77,6 +77,17 @@ export const getMoonSunEarthSceneB = async (setup) => {
 	}
 	MOEllipse.add(gltfMoon);
 	obj.add(MOEllipse);
+
+	//red light for moon
+	const red_light_moon = new THREE.SpotLight( 0xff0000, 0.5 );
+	red_light_moon.angle=Math.PI/4
+	red_light_moon.decay=0
+	const static_moon=new THREE.Object3D()
+	red_light_moon.target=static_moon
+	setup.sceneB.add(red_light_moon,red_light_moon.target)
+	// const spotLightHelper = new THREE.SpotLightHelper( red_light_moon );
+	// setup.sceneB.add( spotLightHelper );
+
 	setup.sceneB.add(gltfSun, sunPlight, gltfEarth, EOEllipse, obj);
 	return {
 		moonCurve,
@@ -87,5 +98,7 @@ export const getMoonSunEarthSceneB = async (setup) => {
 		gltfEarth,
 		gltfSun,
 		obj,
+		static_moon,
+		red_light_moon
 	};
 };
