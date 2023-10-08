@@ -6,9 +6,17 @@ import { getMoonAndSun } from "./scenes/sceneA";
 import { getMoonSunEarthSceneB } from "./scenes/sceneB";
 import { rotatePlanets, revolveOnEllipse } from "./animations/orbit_animation";
 import { gsap } from "gsap";
+import { hackerEffect } from "./animations/hackerEffets";
 
 //initial camera position
 let setup = new Setup();
+
+let title = document.querySelector("#title");
+let tagline = document.querySelector("#tagline");
+document.body.onload = () => {
+	hackerEffect(title);
+	hackerEffect(tagline);
+};
 
 setup.camera.position.set(0, 0, 100);
 setup.camera.position.y = 0;
@@ -22,10 +30,7 @@ let btn = document.getElementById("btn");
 
 window.addEventListener("scroll", function () {
 	let value = window.scrollY;
-	if (value > window.innerHeight) {
-		sceneA.remove(sun, moon);
-		setup.changeScene(true);
-	}
+
 	btn.style.marginTop = value * 3 + "px";
 });
 

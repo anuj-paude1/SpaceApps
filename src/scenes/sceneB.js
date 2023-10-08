@@ -6,6 +6,8 @@ export const getMoonSunEarthSceneB = async (setup) => {
 	const EOMinorAxis = 150;
 	const MOMajorAxis = 76.88;
 	const MOMinorAxis = 60.76;
+	const axishelper = new THREE.AxesHelper(10);
+	setup.sceneB.add(axishelper);
 
 	const earthCurve = new THREE.EllipseCurve(
 		0,
@@ -23,7 +25,7 @@ export const getMoonSunEarthSceneB = async (setup) => {
 	const moonScale = 1;
 	const sunScale = 2;
 	const earthScale = 4;
-	const gridH = new THREE.GridHelper(200, 10);
+	const gridH = new THREE.GridHelper(2000, 1000, 0x4a4a4a);
 	const sunPlight = new THREE.PointLight(0xffffff, 100000);
 	sunPlight.castShadow = true;
 

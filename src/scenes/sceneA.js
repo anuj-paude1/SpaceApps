@@ -17,9 +17,7 @@ export const getMoonAndSun = async (setup) => {
 	//hehe
 	setup.sceneA.background = texture;
 
-	const axishelper = new THREE.AxesHelper(10);
-	setup.sceneA.add(axishelper);
-
+	
 	//sun model
 	const sunGeometry = new THREE.SphereGeometry(0.5, 32, 32); // Radius, widthSegments, heightSegments
 	const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
