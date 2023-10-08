@@ -7,12 +7,12 @@ export const getMoonAndSun = async (setup) => {
 	//background stars
 	const loader = new THREE.CubeTextureLoader();
 	const texture = loader.load([
-		"../public/images/2k_stars.jpg",
-		"../public/images/2k_stars.jpg",
-		"../public/images/2k_stars.jpg",
-		"../public/images/2k_stars.jpg",
-		"../public/images/2k_stars.jpg",
-		"../public/images/2k_stars.jpg",
+		"./images/2k_stars.jpg",
+		"./images/2k_stars.jpg",
+		"./images/2k_stars.jpg",
+		"./images/2k_stars.jpg",
+		"./images/2k_stars.jpg",
+		"./images/2k_stars.jpg",
 	]);
 	//hehe
 	setup.sceneA.background = texture;
@@ -24,11 +24,11 @@ export const getMoonAndSun = async (setup) => {
 	const sun = new THREE.Mesh(sunGeometry, sunMaterial);
 	setup.sceneA.add(sun);
 	const textureLoader = new THREE.TextureLoader();
-	textureLoader.load("../public/images/2k_sun.jpg", (texture) => {
+	textureLoader.load("./images/2k_sun.jpg", (texture) => {
 		sunMaterial.map = texture;
 		sunMaterial.needsUpdate = true;
 	});
-	let moonModel = await loadAsset("../public/models/moon.glb");
+	let moonModel = await loadAsset("./models/moon.glb");
 	const sunPLight = new THREE.PointLight(0xffffff, 10000);
 	sun.add(sunPLight);
 	//setting moon and sun scale and position
