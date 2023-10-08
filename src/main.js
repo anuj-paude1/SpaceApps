@@ -91,6 +91,7 @@ function goNextPage() {
 
 	if (!audio.paused) {
 		audio.pause()
+		audio.currentTime = 0;
 	}
 	if (currentLocation < maxLocation) {
 		switch (currentLocation) {
@@ -142,21 +143,30 @@ function goNextPage() {
 }
 
 function goPrevPage() {
+	if (!audio.paused) {
+		audio.pause()
+		audio.currentTime = 0;
+	}
 	if (currentLocation > 1) {
 		switch (currentLocation) {
 			case 2:
 				closeBook(true);
 				paper1.classList.remove("flipped");
 				paper1.style.zIndex = 4;
-
+				audio = document.getElementById("myAudio1");
+				play_audio(audio)
 				break;
 			case 3:
 				paper2.classList.remove("flipped");
 				paper2.style.zIndex = 3;
+				audio = document.getElementById("myAudio2");
+				play_audio(audio)
 				break;
 			case 4:
 				paper3.classList.remove("flipped");
 				paper3.style.zIndex = 2;
+				audio = document.getElementById("myAudio3");
+				play_audio(audio)
 				break;
 			case 5:
 				openBook();
