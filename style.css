@@ -189,7 +189,7 @@ button {
 
 	background-color: transparent;
 	cursor: pointer;
-	margin: 5em;
+	margin: 2em;
 	transition: transform 0.5s;
 }
 
@@ -282,11 +282,11 @@ i {
 }
 .question-answers {
 	margin-right: 1em;
-	margin-top: 100vh;
+	margin-top: 85vh;
 	text-align: left;
 	color: white;
 	font-family: "Comic Sans MS", "Comic Sans", cursive;
-	min-height: 100vh;
+	height: 70vh;
 	background-color: transparent;
 	opacity: 1;
 }

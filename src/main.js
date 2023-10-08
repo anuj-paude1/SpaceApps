@@ -115,11 +115,11 @@ function goNextPage() {
 				paper4.style.zIndex = 4;
 				closeBook(false);
 				setup.changeScene();
-				setup.camera.position.set(0, 300, 700);
+				setup.camera.position.set(200, 300, 700);
 				let mainSection = document.querySelector(".mainClass");
 				gsap.to(".mainClass", {
 					opacity: 0,
-					duration: 1,
+					duration: 3,
 				});
 				mainSection.style.display = "none";
 				document.querySelector(".render-container").style.zIndex = 100;
