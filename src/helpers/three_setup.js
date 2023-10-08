@@ -7,7 +7,7 @@ class Setup {
 		this.sceneB = new THREE.Scene();
 		//TODO: change the scene back to A
 
-		this.scene = this.sceneB;
+		this.scene = this.sceneA;
 		this.size = {
 			height: window.innerHeight,
 			width: window.innerWidth,
@@ -27,7 +27,7 @@ class Setup {
 			100000
 		);
 		//TODO: this will be reactive, be sure to change it to false
-		this.isSceneB = true;
+		this.isSceneB = false;
 
 		return this;
 	}

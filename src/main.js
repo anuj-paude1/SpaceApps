@@ -3,9 +3,9 @@ import { Setup } from "./helpers/three_setup";
 import { loadAsset } from "./helpers/gltfLoader";
 import { landingAnimation } from "./animations/landing_page_animateion";
 import { getMoonAndSun } from "./scenes/sceneA";
-import * as THREE from "three";
 import { getMoonSunEarthSceneB } from "./scenes/sceneB";
 import { rotatePlanets, revolveOnEllipse } from "./animations/orbit_animation";
+import { gsap } from "gsap";
 
 //initial camera position
 let setup = new Setup();
@@ -84,9 +84,19 @@ function goNextPage() {
 				paper4.style.zIndex = 4;
 				closeBook(false);
 				setup.changeScene(true);
-				let main = document.querySelector("main");
-				main.classList.add("hidden");
-
+				let mainSection = document.querySelector(".mainClass");
+				gsap.to(".mainClass", {
+					opacity: 0,
+					duration: 1,
+				});
+				setTimeout(() => {
+					mainSection.style.display = "nono";
+					document.querySelector(".render-container").style.zIndex = 100;
+					gsap.to(".help-overlay", {
+						opacity: 1,
+						duration: 1,
+					});
+				}, 200);
 				break;
 			default:
 				throw new Error("unknown state");
