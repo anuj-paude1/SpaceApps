@@ -2,8 +2,8 @@ import * as THREE from "three";
 import { loadAsset } from "../helpers/gltfLoader";
 
 export const getMoonSunEarthSceneB = async (setup) => {
-	const EOMajorAxis = 199.0;
-	const EOMinorAxis = 150;
+	const EOMajorAxis = 199.0*2;
+	const EOMinorAxis = 150*2;
 	const MOMajorAxis = 76.88;
 	const MOMinorAxis = 60.76;
 
@@ -21,7 +21,7 @@ export const getMoonSunEarthSceneB = async (setup) => {
 	const EOGeometry = new THREE.BufferGeometry().setFromPoints(earthPoints);
 	const EOMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
 	const moonScale = 1;
-	const sunScale = 2;
+	const sunScale = 10;
 	const earthScale = 4;
 	const gridH = new THREE.GridHelper(200, 10);
 	const sunPlight = new THREE.PointLight(0xffffff, 100000);
@@ -85,10 +85,37 @@ export const getMoonSunEarthSceneB = async (setup) => {
 	const static_moon=new THREE.Object3D()
 	red_light_moon.target=static_moon
 	setup.sceneB.add(red_light_moon,red_light_moon.target)
-	// const spotLightHelper = new THREE.SpotLightHelper( red_light_moon );
-	// setup.sceneB.add( spotLightHelper );
 
-	setup.sceneB.add(gltfSun, sunPlight, gltfEarth, EOEllipse, obj);
+	//spotlight for umbra & pnumbra 
+
+	const spotLight = new THREE.SpotLight( 0xffffff,4 );
+	spotLight.decay=0
+	spotLight.position.set(0,0,0)
+	spotLight.target=gltfEarth
+	spotLight.castShadow = true;
+	spotLight.shadow.mapSize.width = 1024*2;
+	spotLight.shadow.mapSize.height = 1024*2;
+	spotLight.penumbra=1
+	spotLight.shadow.radius=4
+	
+
+	const spotLight_ = new THREE.SpotLight( 0xffffff,3 );
+	spotLight_.decay=0
+	spotLight_.position.set(0,0,0)
+	spotLight_.target=gltfEarth
+	spotLight_.castShadow = true;
+	spotLight_.shadow.mapSize.width = 1024*2;
+	spotLight_.shadow.mapSize.height = 1024*2;
+	spotLight_.penumbra=0
+	spotLight_.shadow.normalBias=3
+	spotLight_.shadow.radius=0
+
+	//helper
+	// const spotLightHelper = new THREE.SpotLightHelper( spotLight );
+	// setup.sceneB.add( spotLightHelper,spotLight_ );
+
+	//replaced sunPlight with spotLight
+	setup.sceneB.add(gltfSun, spotLight, gltfEarth, EOEllipse, obj);
 	return {
 		moonCurve,
 		earthCurve,
