@@ -231,3 +231,5 @@ window.addEventListener("resize", () => {
 	setup.camera.aspect = window.innerWidth / window.innerHeight;
 	setup.camera.updateProjectionMatrix();
 });
+
+
