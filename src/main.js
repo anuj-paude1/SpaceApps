@@ -9,26 +9,23 @@ import { gsap } from "gsap";
 import { hackerEffect } from "./animations/hackerEffets";
 
 var audio = document.getElementById("myAudio2");
-function play_audio(audio)
-{
+function play_audio(audio) {
 	if (audio.paused) {
 		audio.play();
-	  } else {
+	} else {
 		audio.pause();
-	  }
+	}
 }
 //audio pause garnu paryo
-function audio_pause(button1,buttton2)
-{
+function audio_pause(button1, buttton2) {
 	button1.addEventListener("click", function () {
 		// Pause the audio when any button is clicked
 		audio.pause();
-	  });
+	});
 	button2.addEventListener("click", function () {
 		// Pause the audio when any button is clicked
 		audio.pause();
-	  });
-	
+	});
 }
 
 //initial camera position
@@ -40,9 +37,6 @@ document.body.onload = () => {
 	hackerEffect(title);
 	hackerEffect(tagline);
 };
-
-setup.camera.position.set(0, 0, 100);
-setup.camera.position.y = 0;
 
 let sceneAAssets = await getMoonAndSun(setup);
 let sceneBAssets = await getMoonSunEarthSceneB(setup);
@@ -91,9 +85,8 @@ function closeBook(isAtBeginning) {
 //removing the models
 
 function goNextPage() {
-
 	if (!audio.paused) {
-		audio.pause()
+		audio.pause();
 	}
 	if (currentLocation < maxLocation) {
 		switch (currentLocation) {
@@ -102,40 +95,41 @@ function goNextPage() {
 				paper1.classList.add("flipped");
 				paper1.style.zIndex = 1;
 				audio = document.getElementById("myAudio2");
-				play_audio(audio)
+				play_audio(audio);
 				break;
 			case 2:
 				paper2.classList.add("flipped");
 				paper2.style.zIndex = 2;
 				audio = document.getElementById("myAudio3");
-				play_audio(audio)
+				play_audio(audio);
 				break;
 			case 3:
 				paper3.classList.add("flipped");
 				paper3.style.zIndex = 3;
 				audio = document.getElementById("myAudio4");
-				play_audio(audio)
+				play_audio(audio);
 				break;
 
 			case 4:
 				paper4.classList.add("flipped");
 				paper4.style.zIndex = 4;
 				closeBook(false);
-				setup.changeScene(true);
+				setup.changeScene();
+				setup.camera.position.set(0, 300, 700);
 				let mainSection = document.querySelector(".mainClass");
 				gsap.to(".mainClass", {
 					opacity: 0,
 					duration: 1,
 				});
-				setTimeout(() => {
-					mainSection.style.display = "none";
-					document.querySelector(".render-container").style.zIndex = 100;
-					gsap.to(".help-overlay", {
-						opacity: 1,
-						duration: 1,
-					});
-				}, 200);
-				
+				mainSection.style.display = "none";
+				document.querySelector(".render-container").style.zIndex = 100;
+				document.querySelector(".secondPage").style.opacity = 1;
+				document.querySelector(".secondPage").style.zIndex = 149;
+				gsap.to(".help-overlay", {
+					opacity: 1,
+					duration: 1,
+				});
+
 				break;
 			default:
 				throw new Error("unknown state");
@@ -177,6 +171,30 @@ const control = setup.control();
 //story ko js end
 
 const controller = setup.control();
+controller.enableDamping = true;
+controller.keys = {
+	LEFT: "ArrowLeft", //left arrow
+	UP: "ArrowUp", // up arrow
+	RIGHT: "ArrowRight", // right arrow
+	BOTTOM: "ArrowDown", // down arrow
+};
+
+const observer = new IntersectionObserver((entries) => {
+	entries.forEach((entry) => {
+		if (entry.isIntersecting) {
+			entry.target.classList.add(".reveal-text");
+		} else {
+			entry.target.classList.remove(".reveal-text");
+		}
+	});
+});
+
+const QNAElement = document.querySelectorAll(".question-answer");
+QNAElement.forEach((element) => {
+	console.log(element);
+	observer.observe(element);
+});
+console.log(QNAElement);
 
 function animate() {
 	landingAnimation(sceneAAssets.sun, sceneAAssets.moonModel);
@@ -189,7 +207,7 @@ function animate() {
 		sceneBAssets.MOEllipse,
 		sceneBAssets.obj,
 		sceneBAssets.red_light_moon,
-		sceneBAssets.static_moon,
+		sceneBAssets.static_moon
 	);
 	controller.update();
 

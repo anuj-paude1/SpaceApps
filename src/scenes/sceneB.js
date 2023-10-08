@@ -2,8 +2,11 @@ import * as THREE from "three";
 import { loadAsset } from "../helpers/gltfLoader";
 
 export const getMoonSunEarthSceneB = async (setup) => {
-	const EOMajorAxis = 199.0*2;
-	const EOMinorAxis = 150*2;
+	if (setup.isSceneB) {
+		setup.camera.position.set(0, 150, 700);
+	}
+	const EOMajorAxis = 199.0 * 2;
+	const EOMinorAxis = 150 * 2;
 	const MOMajorAxis = 76.88;
 	const MOMinorAxis = 60.76;
 	const axishelper = new THREE.AxesHelper(10);
@@ -74,43 +77,39 @@ export const getMoonSunEarthSceneB = async (setup) => {
 	EOEllipse.position.set(0, 0, 0);
 	const obj = new THREE.Object3D();
 
-	if (setup.isSceneB) {
-		setup.camera.position.set(0, 0, 90);
-	}
 	MOEllipse.add(gltfMoon);
 	obj.add(MOEllipse);
 
 	//red light for moon
-	const red_light_moon = new THREE.SpotLight( 0xff0000, 0.5 );
-	red_light_moon.angle=Math.PI/4
-	red_light_moon.decay=0
-	const static_moon=new THREE.Object3D()
-	red_light_moon.target=static_moon
-	setup.sceneB.add(red_light_moon,red_light_moon.target)
+	const red_light_moon = new THREE.SpotLight(0xff0000, 0.5);
+	red_light_moon.angle = Math.PI / 4;
+	red_light_moon.decay = 0;
+	const static_moon = new THREE.Object3D();
+	red_light_moon.target = static_moon;
+	setup.sceneB.add(red_light_moon, red_light_moon.target);
 
-	//spotlight for umbra & pnumbra 
+	//spotlight for umbra & pnumbra
 
-	const spotLight = new THREE.SpotLight( 0xffffff,4 );
-	spotLight.decay=0
-	spotLight.position.set(0,0,0)
-	spotLight.target=gltfEarth
+	const spotLight = new THREE.SpotLight(0xffffff, 4);
+	spotLight.decay = 0;
+	spotLight.position.set(0, 0, 0);
+	spotLight.target = gltfEarth;
 	spotLight.castShadow = true;
-	spotLight.shadow.mapSize.width = 1024*2;
-	spotLight.shadow.mapSize.height = 1024*2;
-	spotLight.penumbra=1
-	spotLight.shadow.radius=4
-	
+	spotLight.shadow.mapSize.width = 1024 * 2;
+	spotLight.shadow.mapSize.height = 1024 * 2;
+	spotLight.penumbra = 1;
+	spotLight.shadow.radius = 4;
 
-	const spotLight_ = new THREE.SpotLight( 0xffffff,3 );
-	spotLight_.decay=0
-	spotLight_.position.set(0,0,0)
-	spotLight_.target=gltfEarth
+	const spotLight_ = new THREE.SpotLight(0xffffff, 3);
+	spotLight_.decay = 0;
+	spotLight_.position.set(0, 0, 0);
+	spotLight_.target = gltfEarth;
 	spotLight_.castShadow = true;
-	spotLight_.shadow.mapSize.width = 1024*2;
-	spotLight_.shadow.mapSize.height = 1024*2;
-	spotLight_.penumbra=0
-	spotLight_.shadow.normalBias=3
-	spotLight_.shadow.radius=0
+	spotLight_.shadow.mapSize.width = 1024 * 2;
+	spotLight_.shadow.mapSize.height = 1024 * 2;
+	spotLight_.penumbra = 0;
+	spotLight_.shadow.normalBias = 3;
+	spotLight_.shadow.radius = 0;
 
 	//helper
 	// const spotLightHelper = new THREE.SpotLightHelper( spotLight );
@@ -128,6 +127,6 @@ export const getMoonSunEarthSceneB = async (setup) => {
 		gltfSun,
 		obj,
 		static_moon,
-		red_light_moon
+		red_light_moon,
 	};
 };

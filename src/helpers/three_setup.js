@@ -32,7 +32,7 @@ class Setup {
 		return this;
 	}
 
-	changeScene(isChangeSene) {
+	changeScene() {
 		this.isSceneB = true;
 		this.scene = this.sceneB;
 	}
