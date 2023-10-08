@@ -5,6 +5,7 @@ import { landingAnimation } from "./animations/landing_page_animateion";
 import { getMoonAndSun } from "./scenes/sceneA";
 import * as THREE from "three";
 import { getMoonSunEarthSceneB } from "./scenes/sceneB";
+import { rotatePlanets, revolveOnEllipse } from "./animations/orbit_animation";
 
 //initial camera position
 let setup = new Setup();
@@ -130,7 +131,18 @@ const controller = setup.control();
 
 function animate() {
 	landingAnimation(sceneAAssets.sun, sceneAAssets.moonModel);
+	rotatePlanets(sceneBAssets.gltfMoon, sceneBAssets.gltfEarth);
+	revolveOnEllipse(
+		sceneBAssets.moonCurve,
+		sceneBAssets.earthCurve,
+		sceneBAssets.gltfMoon,
+		sceneBAssets.gltfEarth,
+		sceneBAssets.MOEllipse,
+
+		sceneBAssets.obj
+	);
 	controller.update();
+
 	window.requestAnimationFrame(animate);
 	setup.update();
 }

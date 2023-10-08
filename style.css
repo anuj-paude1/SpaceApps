@@ -20,7 +20,7 @@ body {
 	height: 100vh;
 	width: 100vw;
 	/* TODO: Put the zindex back to -99 */
-	z-index: -99;
+	z-index: 199;
 	padding: 0;
 	margin: 0;
 	overflow-x: hidden;
@@ -245,7 +245,7 @@ i {
 /*TODO: change the opacity to 0 (for dev)  */
 .mainClass {
 	transition: all 5;
-	opacity: 1;
+	opacity: 0;
 	z-index: 99;
 }
 .visible {
