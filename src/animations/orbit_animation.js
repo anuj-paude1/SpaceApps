@@ -10,8 +10,9 @@ export const revolveOnEllipse = (
 	moon,
 	earth,
 	MOEllipse,
-
-	obj
+	obj,
+	red_light_moon,
+	static_moon
 ) => {
 	function revolveMoon() {
 		theta1 += 0.001;
@@ -32,4 +33,6 @@ export const revolveOnEllipse = (
 	}
 	revolveMoon();
 	revolveEarth();
+	red_light_moon.position.set(earth.position.x*1.01,earth.position.y*1.01,earth.position.z*1.01)
+	static_moon.position.set(earth.position.x*1.2,earth.position.y*1.2,earth.position.z*1.2)
 };

@@ -153,8 +153,9 @@ function animate() {
 		sceneBAssets.gltfMoon,
 		sceneBAssets.gltfEarth,
 		sceneBAssets.MOEllipse,
-
-		sceneBAssets.obj
+		sceneBAssets.obj,
+		sceneBAssets.red_light_moon,
+		sceneBAssets.static_moon,
 	);
 	controller.update();
 
